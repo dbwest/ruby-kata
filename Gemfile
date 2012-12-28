@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
+
+gem 'rake'                                                                                                                                              
 gem 'rspec'
 gem 'cucumber'
-gem 'json'
 gem 'sinatra'
 gem 'haml'
-gem 'rake'                                                                                                                                              
