@@ -1,3 +1,0 @@
-class VendingMachine 
-
-end
