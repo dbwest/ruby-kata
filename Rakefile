@@ -7,15 +7,25 @@ require 'sinatra'
 require 'vendingmachine'
 
 RSpec::Core::RakeTask.new :spec
-Cucumber::Rake::Task.new :feature
+Cucumber::Rake::Task.new :cucumber
+
+task :start_server do
+  $sinatra = Thread.new do
+    set :public_folder, 'lib/public'
+    set :views, 'lib/views'
+    Sinatra::Application.run!
+  end
+  sleep 5 # give the server 5 seconds to start 
+end
+
+task :kill_server do
+  puts "Killing Sinatra..."
+  Thread.kill $sinatra
+end
+
+task :feature => [:start_server, :cucumber, :kill_server]
 
 task :specs => :spec
 task :features => :feature
-
-task :server do
-  set :public_folder, 'lib/public'
-  set :views, 'lib/views'
-  Sinatra::Application.run!
-end
 
 task :default => [:spec, :feature]
