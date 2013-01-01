@@ -13,6 +13,8 @@ task :specs => :spec
 task :features => :feature
 
 task :server do
+  set :public_folder, 'lib/public'
+  set :views, 'lib/views'
   Sinatra::Application.run!
 end
 
