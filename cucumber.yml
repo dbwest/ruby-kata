@@ -1,1 +1,2 @@
-default: --format pretty
+default: --format pretty --tag ~@pending
+pending: --format pretty --tag @pending

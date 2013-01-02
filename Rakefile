@@ -1,32 +1,24 @@
-$LOAD_PATH << './lib'
+$LOAD_PATH << 'lib'
 
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 
 require 'sinatra'
 
-require 'calculator'
-
 RSpec::Core::RakeTask.new :spec
-Cucumber::Rake::Task.new :cucumber
+Cucumber::Rake::Task.new :feature
 
-task :start_server do
-  $sinatra = Thread.new do
-    set :public_folder, 'lib/public'
-    set :views, 'lib/views'
-    Sinatra::Application.run!
-  end
-  sleep 5 # give the server 5 seconds to start 
+desc "Starts the Sinatra server"
+task :server do
+  require 'calculator'
+  Sinatra::Application.run!
 end
 
-task :kill_server do
-  puts "Killing Sinatra..."
-  Thread.kill $sinatra
-end
-
-task :feature => [:start_server, :cucumber, :kill_server]
-
+desc "Run RSpec code examples"
 task :specs => :spec
+
+desc "Run Cucumber features"
 task :features => :feature
 
+desc "Run RSpec cpode examples and the Cucumber features"
 task :default => [:spec, :feature]
